@@ -1,7 +1,10 @@
-const express = require('express');
+const simpleThreads = require('simple-threads');
+simpleThreads.require(
+  'bigInt:big-integer',
+  'express',
+  'asleep'
+);
 const app = express();
-const bigInt = require('big-integer');
-const asleep = require('asleep');
 
 async function fib(n){
   let startTime = Date.now();
@@ -26,7 +29,7 @@ async function fib(n){
 
 app.get('/fib/:fibnum',async (req,res) => {
   let n = req.params.fibnum;
-  res.end( await fib(n) );
+  res.end( await fib.run(n) );
 });
 
 
@@ -47,7 +50,7 @@ let a = [], co = 0, start = Date.now();
 while(a.length < howMany){
   let obj = {n: randInt(1000, 100000) };
   a.push(obj);
-  fib(obj.n).then((result) => {
+  fib.run(obj.n).then((result) => {
     // obj.result = result;
     obj.timeTaken = Date.now() - start;
     co++;
