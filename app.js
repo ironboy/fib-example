@@ -42,18 +42,19 @@ function randInt(min, max){
 // Test the cpu power
 // by making several "parallell"
 // request to fib
+let howMany = 100;
 let a = [], co = 0, start = Date.now();
-while(a.length < 100){
+while(a.length < howMany){
   let obj = {n: randInt(1000, 100000) };
   a.push(obj);
   fib(obj.n).then((result) => {
-    obj.result = result;
+    // obj.result = result;
     obj.timeTaken = Date.now() - start;
     co++;
-    if(co == 100){
+    if(co == howMany){
       console.log(
         'All done', Date.now() - start, 'ms',
-        a.sort((objA, objB) => objA.timeTaken - objB.timeTaken );
+        a.sort((objA, objB) => objA.timeTaken - objB.timeTaken)
       );
     }
   });
